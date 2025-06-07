@@ -12,4 +12,5 @@ dependencies = [
     "pandas-profiling>=3.0.0",
     "scikit-learn>=1.3.2",
     "seaborn>=0.13.2",
+    "setuptools>=75.3.2",
 ]
