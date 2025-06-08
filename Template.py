@@ -9,7 +9,7 @@ project_name = 'LungCancerDetection'
 list_of_file = [
     '.github/workflows/.gitkeep', #instructions for deployment will be here
     f"src/{project_name}/__init__.py",
-    f"src/{project_name}/components/__ini__.py",
+    f"src/{project_name}/components/__init__.py",
     f"src/{project_name}/components/data_ingestion.py",
     f"src/{project_name}/components/data_transformation.py",
     f"src/{project_name}/components/model_trainer.py",
