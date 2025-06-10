@@ -31,7 +31,7 @@ class DateTransformationExtractor(BaseEstimator,TransformerMixin):
 
         X['treatment_duration'] = (X['end_treatment_date']-X['diagnosis_date']).dt.days
         X.drop(columns = ['end_treatment_date','diagnosis_date'], axis=1, inplace = True)
-        return X[['treatment_duration']].values()
+        return X[['treatment_duration']]
 
 @dataclass
 class DataTransformationConfig:
@@ -54,8 +54,10 @@ class DataTransformation:
             numerical_columns = ['age','bmi', 'cholesterol_level']
 
             categorical_columns = ['gender', 'country','cancer_stage','family_history', 'smoking_status', 'treatment_type', 'hypertension', 'asthma', 'cirrhosis', 'other_cancer']
-
-            date_columns = DateTransformationExtractor()
+            
+            date_columns = ['diagnosis_date', 'end_treatment_date']
+            #date_columns = DateTransformationExtractor() 
+            # cannot do this since ColumnTransformer only accepts string, list of column name,boolean mask in input at 3rd position
 
             num_pipeline = Pipeline(steps=[
                 ('imputer', SimpleImputer(strategy='median')),
@@ -71,7 +73,7 @@ class DataTransformation:
             ])
 
 
-            date_pipeline = Pipeline(steps=[
+            date_pipeline = Pipeline(steps=[('date transoformer', DateTransformationExtractor()),
                 ('imputer', SimpleImputer(strategy='median')),
                 ('std scaler', StandardScaler())
             ])

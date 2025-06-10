@@ -1,0 +1,9 @@
+[2025-06-10 15:34:34,682] 13 root - INFO - the executions has started
+[2025-06-10 15:34:36,699] 26 root - INFO - Reading the data
+[2025-06-10 15:34:54,117] 35 root - INFO - Data Ingestion Complete
+[2025-06-10 15:34:56,633] 102 root - INFO - reading the tarin and test file
+[2025-06-10 15:34:56,634] 79 root - INFO - Categorical columns: ['gender', 'country', 'cancer_stage', 'family_history', 'smoking_status', 'treatment_type', 'hypertension', 'asthma', 'cirrhosis', 'other_cancer']
+[2025-06-10 15:34:56,634] 80 root - INFO - Numerical columns: ['age', 'bmi', 'cholesterol_level']
+[2025-06-10 15:34:56,670] 81 root - INFO - Date columns: DateTransformationExtractor()
+[2025-06-10 15:34:56,787] 116 root - INFO - applying the preprocessing on training and test dataframe
+[2025-06-10 15:34:57,481] 27 root - INFO - Custom Exception
