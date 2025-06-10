@@ -15,6 +15,8 @@ from src.LungCancerDetection.logger import logging
 import os
 from sklearn.base import BaseEstimator, TransformerMixin
 
+from src.LungCancerDetection.utils import save_object
+
 class DateTransformationExtractor(BaseEstimator,TransformerMixin):  
     def __init__(self):
         pass
@@ -91,6 +93,7 @@ class DataTransformation:
 
         except Exception as e:
             raise CustomException(e,sys)
+        
     def initiate_data_transformation(self,train_path, test_path):
         try:
             train_df = pd.read_csv(train_path)
@@ -100,7 +103,42 @@ class DataTransformation:
 
             preprocessing_obj = self.get_data_transformer_object()
             target_column_name = 'survived'
-            numerical_column = []
+            numerical_column = ['age','bmi', 'cholesterol_level']
+
+            #input train dataset divided into dependent and indpeendent feature
+            input_features_train_df = train_df.drop(columns=[target_column_name], axis=1)
+            target_features_train_df = train_df[target_column_name]
+
+            #input test dataset divided into dependent and indpeendent feature
+            input_features_test_df = test_df.drop(columns=[target_column_name], axis=1)
+            target_features_test_df = test_df[target_column_name]
+
+            logging.info("applying the preprocessing on training and test dataframe")
+
+            input_feature_train_arr = preprocessing_obj.fit_transform(input_features_train_df)
+            input_features_test_arr = preprocessing_obj.transform(input_features_test_df)
+
+            train_arr = np.c_[input_feature_train_arr, np.array(target_features_train_df)]
+            test_arr = np.c_[input_features_test_arr, np.array(target_features_test_df)]
+
+            logging.info("saved preprocessing object")
+
+            save_object(
+                file_path=self.data_transformation_config.preprocessor_obj_file_path,
+                obj=preprocessing_obj
+            )
+
+            return (
+                train_arr,
+                test_arr,
+                self.data_transformation_config.preprocessor_obj_file_path
+            )
+
+            
+
+
+
+
         except Exception as e:
             raise CustomException(e,sys)
 
