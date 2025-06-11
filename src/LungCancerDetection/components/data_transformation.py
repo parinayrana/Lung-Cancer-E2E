@@ -53,7 +53,7 @@ class DataTransformation:
             
             numerical_columns = ['age','bmi', 'cholesterol_level']
 
-            categorical_columns = ['gender', 'country','cancer_stage','family_history', 'smoking_status', 'treatment_type', 'hypertension', 'asthma', 'cirrhosis', 'other_cancer']
+            categorical_columns = ['gender','cancer_stage','family_history', 'smoking_status', 'treatment_type', 'hypertension', 'asthma', 'cirrhosis', 'other_cancer']
             
             date_columns = ['diagnosis_date', 'end_treatment_date']
             #date_columns = DateTransformationExtractor() 
@@ -87,7 +87,7 @@ class DataTransformation:
                     ("num_pipeline",num_pipeline, numerical_columns),
                     ("cat_pipeline", cat_pipeline, categorical_columns),
                     ("date_pipeline", date_pipeline, date_columns)
-                ]
+                ], remainder='drop'
             )
 
             return preprocessor

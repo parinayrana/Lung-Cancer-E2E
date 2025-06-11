@@ -1,0 +1,8 @@
+[2025-06-11 15:28:16,239] 26 root - INFO - Reading the data
+[2025-06-11 15:28:31,125] 35 root - INFO - Data Ingestion Complete
+[2025-06-11 15:28:33,626] 104 root - INFO - reading the tarin and test file
+[2025-06-11 15:28:33,630] 81 root - INFO - Categorical columns: ['gender', 'country', 'cancer_stage', 'family_history', 'smoking_status', 'treatment_type', 'hypertension', 'asthma', 'cirrhosis', 'other_cancer']
+[2025-06-11 15:28:33,631] 82 root - INFO - Numerical columns: ['age', 'bmi', 'cholesterol_level']
+[2025-06-11 15:28:33,631] 83 root - INFO - Date columns: ['diagnosis_date', 'end_treatment_date']
+[2025-06-11 15:28:33,820] 118 root - INFO - applying the preprocessing on training and test dataframe
+[2025-06-11 15:28:44,108] 126 root - INFO - Testing to pinpoint the issue
