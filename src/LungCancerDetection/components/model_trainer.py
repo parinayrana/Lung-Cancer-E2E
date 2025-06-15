@@ -46,14 +46,14 @@ class ModelTrainer:
                 "Decision Tree": DecisionTreeClassifier(),
                 "Random Forest": RandomForestClassifier(),
                 "Support Vector Classifier": SVC(probability=True),
-                "XGBoost Classifier": XGBClassifier(use_label_encoder=False, eval_metric='logloss'),
+                "XGBoost Classifier": XGBClassifier(eval_metric='logloss'),
                 "CatBoost Classifier": CatBoostClassifier(verbose=False),
                 "AdaBoost Classifier": AdaBoostClassifier(),
                 "GradientBoost Classifier": GradientBoostingClassifier()
             }
 
             params = {
-                "Logistic Regression": {'penalty':['l2', 'l1'], 'C': [0.01,0.1,1,10], 'solver':['lbfgs', 'liblinear'], 'max_iter':[100,200]},
+                "Logistic Regression": {'penalty':['l2'], 'C': [0.01,0.1,1,10], 'solver':['lbfgs', 'liblinear'], 'max_iter':[100,200]},
                 "K-Nearest Neighbors": {'n_neighbors':[3,5,7,9], 'weights': ['uniform', 'distance'], 'metric':['euclidean','manhattan']},
                 "Decision Tree": {'criterion':['gini', 'entropy'], 'max_depth': [5,10,20,25], 'min_samples_split':[2,5,10]},
                 "Random Forest": {'n_estimators': [50, 100, 200],'max_depth': [5,10,20,25],'min_samples_split': [2, 5],'criterion': ['gini', 'entropy']},
@@ -63,7 +63,27 @@ class ModelTrainer:
                 "AdaBoost Classifier": {'n_estimators': [50,100,200],'learning_rate':[0.01,0.1,1]},
                 "GradientBoost Classifier": {'n_estimators': [50,100,200], 'learning_rate':[0.01,0.05,0.1],'max_depth':[3,5,7]}
             }
+            model_report : dict=evaluate_models(X_train,y_train,X_test,y_test, models, params)
             
+            #to get best model score from model_report
+            best_model_score = max(sorted(model_report.values()))
+
+            best_model_name = list(model_report.keys())[list(model_report.values()).index(best_model_score)]
+
+            best_model = models[best_model_name]
+
+            if best_model_score < 0.6:
+                raise Exception("No best model found")
+            logging.info(f"Best found model on both training and testing dataset")
+
+            save_object(file_path=self.model_trainer_config.trained_model_file_path, obj=best_model)
+
+            predicted = best_model.predict(X_test)
+
+            f1_Score = f1_score(y_test, predicted)
+
+            return f1_Score
+
         except Exception as e:
             raise CustomException(e,sys)
 

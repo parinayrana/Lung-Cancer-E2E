@@ -8,6 +8,8 @@ from src.LungCancerDetection.components.data_ingestion import DataIngestionConfi
 from src.LungCancerDetection.components.data_transformation import DataTransformationConfig
 from src.LungCancerDetection.components.data_transformation import DataTransformation
 from src.LungCancerDetection.components.data_transformation import DateTransformationExtractor
+from src.LungCancerDetection.components.model_trainer import ModelTrainer,ModelTrainerConfig
+
 
 if __name__ =='__main__':
     logging.info("the executions has started")
@@ -19,7 +21,11 @@ if __name__ =='__main__':
 
         data_transform_config = DataTransformationConfig()
         data_transform = DataTransformation()
-        data_transform.initiate_data_transformation(train_data_path, test_data_path)
+        train_arr, test_arr , _ = data_transform.initiate_data_transformation(train_data_path, test_data_path)
+
+        #model_trainer_config = ModelTrainerConfig()
+        model_training = ModelTrainer()
+        print(model_training.initiate_model_trainer(train_arr,test_arr))
 
         
 
