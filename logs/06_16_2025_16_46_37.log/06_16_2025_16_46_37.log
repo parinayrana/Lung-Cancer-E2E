@@ -1,0 +1,9 @@
+[2025-06-16 16:47:12,151] 15 root - INFO - the executions has started
+[2025-06-16 16:47:15,118] 27 root - INFO - Reading the data
+[2025-06-16 16:47:15,424] 36 root - INFO - Data Ingestion Complete
+[2025-06-16 16:47:15,448] 103 root - INFO - reading the tarin and test file
+[2025-06-16 16:47:15,648] 124 root - INFO - applying the preprocessing on training and test dataframe
+[2025-06-16 16:47:15,649] 81 root - INFO - Categorical columns: ['gender', 'cancer_stage', 'family_history', 'smoking_status', 'treatment_type', 'hypertension', 'asthma', 'cirrhosis', 'other_cancer']
+[2025-06-16 16:47:15,650] 82 root - INFO - Numerical columns: ['age', 'bmi', 'cholesterol_level', 'treatment_duration']
+[2025-06-16 16:47:15,650] 83 root - INFO - Date columns: ['diagnosis_date', 'end_treatment_date']
+[2025-06-16 16:47:15,810] 134 root - INFO - saved preprocessing object
