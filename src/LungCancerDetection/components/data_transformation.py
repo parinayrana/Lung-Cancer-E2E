@@ -30,7 +30,7 @@ class DateTransformationExtractor(BaseEstimator,TransformerMixin):
         X['end_treatment_date'] = pd.to_datetime(X['end_treatment_date'])
 
         X['treatment_duration'] = (X['end_treatment_date']-X['diagnosis_date']).dt.days
-        X.drop(columns = ['end_treatment_date','diagnosis_date'], axis=1, inplace = True)
+        #X.drop(columns = ['end_treatment_date','diagnosis_date'], axis=1, inplace = True)
         return X[['treatment_duration']]
 
 @dataclass
@@ -46,7 +46,7 @@ class DataTransformation:
 
     def get_data_transformer_object(self):
         '''
-        this fucntion is responsible for data transformation
+        this function is responsible for data transformation
         '''
 
         try:
@@ -73,10 +73,10 @@ class DataTransformation:
             ])
 
 
-            date_pipeline = Pipeline(steps=[('date transoformer', DateTransformationExtractor()),
-                ('imputer', SimpleImputer(strategy='median')),
-                ('std scaler', StandardScaler())
-            ])
+            # date_pipeline = Pipeline(steps=[('date transoformer', DateTransformationExtractor()),
+            #     ('imputer', SimpleImputer(strategy='median')),
+            #     ('std scaler', StandardScaler())
+            # ])
 
             logging.info(f"Categorical columns: {categorical_columns}")
             logging.info(f"Numerical columns: {numerical_columns}")
@@ -85,8 +85,7 @@ class DataTransformation:
             preprocessor = ColumnTransformer(
                 [
                     ("num_pipeline",num_pipeline, numerical_columns),
-                    ("cat_pipeline", cat_pipeline, categorical_columns),
-                    ("date_pipeline", date_pipeline, date_columns)
+                    ("cat_pipeline", cat_pipeline, categorical_columns)        
                 ], remainder='drop'
             )
 
@@ -105,7 +104,14 @@ class DataTransformation:
 
             preprocessing_obj = self.get_data_transformer_object()
             target_column_name = 'survived'
+            date_transformer = DateTransformationExtractor()
             numerical_column = ['age','bmi', 'cholesterol_level']
+
+            train_df = date_transformer.fit_transform(train_df)
+            test_df = date_transformer.transform(test_df)
+
+            train_df.drop(columns = ['end_treatment_date','diagnosis_date'], axis=1, inplace = True)
+            test_df.drop(columns = ['end_treatment_date','diagnosis_date'], axis=1, inplace = True)
 
             #input train dataset divided into dependent and indpeendent feature
             input_features_train_df = train_df.drop(columns=[target_column_name], axis=1)
