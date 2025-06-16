@@ -31,7 +31,7 @@ class DateTransformationExtractor(BaseEstimator,TransformerMixin):
 
         X['treatment_duration'] = (X['end_treatment_date']-X['diagnosis_date']).dt.days
         #X.drop(columns = ['end_treatment_date','diagnosis_date'], axis=1, inplace = True)
-        return X[['treatment_duration']]
+        return X
 
 @dataclass
 class DataTransformationConfig:
