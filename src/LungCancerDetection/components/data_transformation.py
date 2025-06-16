@@ -51,7 +51,7 @@ class DataTransformation:
 
         try:
             
-            numerical_columns = ['age','bmi', 'cholesterol_level']
+            numerical_columns = ['age','bmi', 'cholesterol_level', 'treatment_duration']
 
             categorical_columns = ['gender','cancer_stage','family_history', 'smoking_status', 'treatment_type', 'hypertension', 'asthma', 'cirrhosis', 'other_cancer']
             
@@ -102,10 +102,10 @@ class DataTransformation:
 
             logging.info("reading the tarin and test file")
 
-            preprocessing_obj = self.get_data_transformer_object()
+            
             target_column_name = 'survived'
             date_transformer = DateTransformationExtractor()
-            numerical_column = ['age','bmi', 'cholesterol_level']
+            numerical_column = ['age','bmi', 'cholesterol_level', 'treatment_duration']
 
             train_df = date_transformer.fit_transform(train_df)
             test_df = date_transformer.transform(test_df)
@@ -122,6 +122,8 @@ class DataTransformation:
             target_features_test_df = test_df[target_column_name]
 
             logging.info("applying the preprocessing on training and test dataframe")
+
+            preprocessing_obj = self.get_data_transformer_object()
 
             input_feature_train_arr = preprocessing_obj.fit_transform(input_features_train_df)
             input_features_test_arr = preprocessing_obj.transform(input_features_test_df)
