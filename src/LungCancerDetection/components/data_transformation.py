@@ -16,6 +16,7 @@ import os
 from sklearn.base import BaseEstimator, TransformerMixin
 
 from src.LungCancerDetection.utils import save_object
+from imblearn.over_sampling import SMOTE
 
 class DateTransformationExtractor(BaseEstimator,TransformerMixin):  
     def __init__(self):
@@ -110,6 +111,7 @@ class DataTransformation:
             train_df = date_transformer.fit_transform(train_df)
             test_df = date_transformer.transform(test_df)
 
+            
             train_df.drop(columns = ['end_treatment_date','diagnosis_date'], axis=1, inplace = True)
             test_df.drop(columns = ['end_treatment_date','diagnosis_date'], axis=1, inplace = True)
 
