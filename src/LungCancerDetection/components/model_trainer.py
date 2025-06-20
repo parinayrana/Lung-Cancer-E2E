@@ -53,7 +53,7 @@ class ModelTrainer:
             }
 
             params = {
-                "Logistic Regression": {'penalty':['l2'], 'C': [0.01,0.1,1,10], 'solver':['lbfgs', 'liblinear'], 'max_iter':[100,200]},
+                "Logistic Regression": {'penalty':['l2'], 'C': [0.01,0.1,1,10], 'solver':['liblinear'], 'max_iter':[100,200]},
                 "K-Nearest Neighbors": {'n_neighbors':[3,5,7,9], 'weights': ['uniform', 'distance'], 'metric':['euclidean','manhattan']},
                 "Decision Tree": {'criterion':['gini', 'entropy'], 'max_depth': [5,10,20,25], 'min_samples_split':[2,5,10]},
                 "Random Forest": {'n_estimators': [50, 100, 200],'max_depth': [5,10,20,25],'min_samples_split': [2, 5],'criterion': ['gini', 'entropy']},
