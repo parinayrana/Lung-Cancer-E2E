@@ -41,7 +41,7 @@ def evaluate_models(X_train,y_train, X_test, y_test, models, params):
             clf = CalibratedClassifierCV(base_estimator=best_model,cv=5, method="isotonic" )
             clf.fit(X_train,y_train)
 
-            y_train_pred = clf.predict_proba(X_train)
+            #y_train_pred = clf.predict_proba(X_train)[:, 1]
 
             y_test_pred = clf.predict_proba(X_test)[:, 1]
 
@@ -52,7 +52,7 @@ def evaluate_models(X_train,y_train, X_test, y_test, models, params):
 
             # y_test_pred = model.predict(X_test)
 
-            roc_train = roc_auc_score(y_train,y_train_pred)
+            #roc_train = roc_auc_score(y_train,y_train_pred)
 
             #f1_train = f1_score(y_train,y_train_pred)
 
