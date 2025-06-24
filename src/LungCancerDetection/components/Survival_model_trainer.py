@@ -20,6 +20,7 @@ from sklearn.svm import SVC
 from src.LungCancerDetection.exception import CustomException
 from src.LungCancerDetection.logger import logging
 from src.LungCancerDetection.utils import save_object,evaluate_models
+from sklearn.metrics import roc_auc_score
 
 
 
@@ -72,17 +73,17 @@ class ModelTrainer:
 
             best_model = models[best_model_name]
 
-            if best_model_score < 0.6:
+            if best_model_score < 0.5:
                 raise Exception("No best model found")
-            logging.info(f"Best found model on both training and testing dataset")
+            logging.info(f"Best found model on both training and testing dataset {best_model_name}")
 
             save_object(file_path=self.model_trainer_config.trained_model_file_path, obj=best_model)
 
-            predicted = best_model.predict(X_test)
+            predicted = best_model.predict_proba(X_test)[:,1]
 
-            f1_Score = f1_score(y_test, predicted)
+            roc_Score = roc_auc_score(y_test, predicted)
 
-            return f1_Score
+            return roc_Score
 
         except Exception as e:
             raise CustomException(e,sys)
