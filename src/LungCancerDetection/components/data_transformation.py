@@ -68,6 +68,8 @@ class DataTransformation:
 
             ])
             
+            binary_pipeline = 'passthrough'
+
 
             cat_pipeline = Pipeline(steps=[
                 ('imputer', SimpleImputer(strategy='most_frequent')),
@@ -88,7 +90,7 @@ class DataTransformation:
             preprocessor = ColumnTransformer(
                 [
                     ("num_pipeline",num_pipeline, numerical_columns),
-                    ("binary_pipeline", 'passthrough', binary_columns),
+                    ("binary_pipeline",binary_pipeline, binary_columns),
                     ("cat_pipeline", cat_pipeline, categorical_columns)        
                 ], remainder='drop'
             )
