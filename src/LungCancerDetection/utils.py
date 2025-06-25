@@ -4,6 +4,9 @@ import os
 import sys
 
 
+from imblearn.pipeline import Pipeline as ImbPipeline
+from imblearn.combine import SMOTETomek
+
 from src.LungCancerDetection.exception import CustomException
 from src.LungCancerDetection.logger import logging
 import pandas as pd
@@ -28,10 +31,12 @@ def save_object(file_path, obj):
 def evaluate_models(X_train,y_train, X_test, y_test, models, params):
     try:
         report = {}
+        sm = SMOTETomek(sampling_strategy='auto')
+        X_train,y_train = sm.fit_resample(X_train,y_train)
 
-        for i in range(len(list(models))):
-            model = list(models.values())[i]
-            para = params[list(models.keys())[i]]
+        for model_name, model in models.items():
+            #model = list(models.values())[i]
+            para = params[model_name]
 
             gs = GridSearchCV(model, para, cv=3)
             gs.fit(X_train,y_train)
@@ -59,7 +64,7 @@ def evaluate_models(X_train,y_train, X_test, y_test, models, params):
             #f1_test = f1_score(y_test, y_test_pred)
             roc_test = roc_auc_score(y_test, y_test_pred)
 
-            report[list(models.keys())[i]] = roc_test
+            report[model_name] = roc_test
 
         return report
     
