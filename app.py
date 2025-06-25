@@ -8,7 +8,7 @@ from src.LungCancerDetection.components.data_ingestion import DataIngestionConfi
 from src.LungCancerDetection.components.data_transformation import DataTransformationConfig
 from src.LungCancerDetection.components.data_transformation import DataTransformation
 from src.LungCancerDetection.components.data_transformation import DateTransformationExtractor
-from src.LungCancerDetection.components.model_trainer import ModelTrainer,ModelTrainerConfig
+from src.LungCancerDetection.components.Survival_model_trainer import ModelTrainer,ModelTrainerConfig
 
 
 if __name__ =='__main__':
