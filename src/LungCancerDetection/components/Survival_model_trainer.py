@@ -26,7 +26,7 @@ from sklearn.metrics import roc_auc_score
 
 @dataclass
 class ModelTrainerConfig:
-    trained_model_file_path = os.path.join("artifacts", "model.pkl")
+    trained_model_file_path = os.path.join("artifacts", "Survival_model.pkl")
 
 class ModelTrainer:
     def __init__(self):
