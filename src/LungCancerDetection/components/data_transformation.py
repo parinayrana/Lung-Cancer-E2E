@@ -54,7 +54,9 @@ class DataTransformation:
             
             numerical_columns = ['age','bmi', 'cholesterol_level', 'treatment_duration']
 
-            categorical_columns = ['gender','cancer_stage','family_history', 'smoking_status', 'treatment_type', 'hypertension', 'asthma', 'cirrhosis', 'other_cancer']
+            binary_columns = ['hypertension', 'asthma', 'cirrhosis', 'other_cancer']
+
+            categorical_columns = ['gender','cancer_stage','family_history', 'smoking_status', 'treatment_type']
             
             date_columns = ['diagnosis_date', 'end_treatment_date']
             #date_columns = DateTransformationExtractor() 
@@ -86,6 +88,7 @@ class DataTransformation:
             preprocessor = ColumnTransformer(
                 [
                     ("num_pipeline",num_pipeline, numerical_columns),
+                    ("binary_pipeline", 'passthrough', binary_columns),
                     ("cat_pipeline", cat_pipeline, categorical_columns)        
                 ], remainder='drop'
             )
