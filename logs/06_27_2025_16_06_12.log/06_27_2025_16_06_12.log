@@ -1,0 +1,12 @@
+[2025-06-27 16:06:35,926] 15 root - INFO - the executions has started
+[2025-06-27 16:06:38,248] 27 root - INFO - Reading the data
+[2025-06-27 16:06:38,511] 36 root - INFO - Data Ingestion Complete
+[2025-06-27 16:06:38,539] 109 root - INFO - reading the tarin and test file
+[2025-06-27 16:06:38,708] 131 root - INFO - applying the preprocessing on training and test dataframe
+[2025-06-27 16:06:38,709] 86 root - INFO - Categorical columns: ['gender', 'cancer_stage', 'family_history', 'smoking_status', 'treatment_type']
+[2025-06-27 16:06:38,709] 87 root - INFO - Numerical columns: ['age', 'bmi', 'cholesterol_level', 'treatment_duration']
+[2025-06-27 16:06:38,709] 88 root - INFO - Date columns: ['diagnosis_date', 'end_treatment_date']
+[2025-06-27 16:06:38,846] 141 root - INFO - saved preprocessing object
+[2025-06-27 16:06:38,850] 37 root - INFO - split training and test data
+[2025-06-27 16:23:39,049] 78 root - INFO - Best found model on both training and testing dataset K-Nearest Neighbors
+[2025-06-27 16:23:39,430] 33 root - INFO - Custom Exception

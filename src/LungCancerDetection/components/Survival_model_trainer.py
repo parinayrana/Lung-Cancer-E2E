@@ -79,6 +79,8 @@ class ModelTrainer:
 
             save_object(file_path=self.model_trainer_config.trained_model_file_path, obj=best_model)
 
+            best_model.fit(X_train,y_train)
+
             predicted = best_model.predict_proba(X_test)[:,1]
 
             roc_Score = roc_auc_score(y_test, predicted)
