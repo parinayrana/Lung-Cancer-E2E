@@ -64,26 +64,26 @@ class ModelTrainer:
                 "AdaBoost Classifier": {'n_estimators': [50,100,200],'learning_rate':[0.01,0.1,1]},
                 "GradientBoost Classifier": {'n_estimators': [50,100,200], 'learning_rate':[0.01,0.05,0.1],'max_depth':[3,5,7]}
             }
-            model_report : dict=evaluate_models(X_train,y_train,X_test,y_test, models, params)
+            model_report, model_dict = evaluate_models(X_train,y_train,X_test,y_test, models, params)
             
             #to get best model score from model_report
             best_model_score = max(sorted(model_report.values()))
 
             best_model_name = list(model_report.keys())[list(model_report.values()).index(best_model_score)]
 
-            best_model = models[best_model_name]
+            best_model = model_dict[best_model_name]
 
             if best_model_score < 0.5:
                 raise Exception("No best model found")
             logging.info(f"Best found model on both training and testing dataset {best_model_name}")
 
-            save_object(file_path=self.model_trainer_config.trained_model_file_path, obj=best_model)
-
-            best_model.fit(X_train,y_train)
+            #best_model.fit(X_train,y_train)
 
             predicted = best_model.predict_proba(X_test)[:,1]
 
             roc_Score = roc_auc_score(y_test, predicted)
+
+            save_object(file_path=self.model_trainer_config.trained_model_file_path, obj=best_model)
 
             return roc_Score
 

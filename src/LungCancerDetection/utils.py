@@ -31,6 +31,7 @@ def save_object(file_path, obj):
 def evaluate_models(X_train,y_train, X_test, y_test, models, params):
     try:
         report = {}
+        trained_models = {}
         sm = SMOTETomek(sampling_strategy='auto')
         X_train,y_train = sm.fit_resample(X_train,y_train)
 
@@ -65,8 +66,9 @@ def evaluate_models(X_train,y_train, X_test, y_test, models, params):
             roc_test = roc_auc_score(y_test, y_test_pred)
 
             report[model_name] = roc_test
+            trained_models[model_name] = clf
 
-        return report
+        return report, trained_models
     
     except Exception as e:
         raise CustomException(e,sys)
