@@ -33,6 +33,9 @@ asthma = st.checkbox("Asthma")
 cirrhosis = st.checkbox("Cirrhosis")
 other_cancer = st.checkbox("Other Cancer History")
 
+
+st.divider()
+
 # Predict button
 if st.button("Predict Survival"):
     # Create a single-row DataFrame from inputs
@@ -54,7 +57,7 @@ if st.button("Predict Survival"):
 
     # Preprocess and predict
     X_transformed = preprocessor.transform(input_df)
-    
+
     prob = model.predict_proba(X_transformed)[0][1]
 
     st.success(f"Estimated Survival Probability: **{round(prob * 100, 2)}%**")
