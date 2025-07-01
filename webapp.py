@@ -60,4 +60,16 @@ if st.button("Predict Survival"):
 
     prob = model.predict_proba(X_transformed)[0][1]
 
+    status = 0
+
+    if prob < 0.3:
+        status = "High Risk Patient"
+    elif 0.3 < prob < 0.7:
+        status = "Moderate Risk Patient"
+    else:
+        status = "Low Risk Patient"
+
+    st.write(f"You are a {status}")   
+
+
     st.success(f"Estimated Survival Probability: **{round(prob * 100, 2)}%**")
