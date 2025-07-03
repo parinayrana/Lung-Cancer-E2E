@@ -64,11 +64,11 @@ if st.button("Predict Survival"):
 
     def risk_label(score):
         if score <= 0.33:
-            return "🟢 Low Risk"
+            return "🔴 High Risk"
         elif score <= 0.66:
             return "🟠 Moderate Risk"
         else:
-            return "🔴 High Risk"
+            return "🟢 Low Risk"
 
     st.subheader(" Risk Assessment")
     st.markdown(f"### Predicted Category: {risk_label(prob)}")
