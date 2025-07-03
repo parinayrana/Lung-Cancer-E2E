@@ -60,16 +60,16 @@ if st.button("Predict Survival"):
 
     prob = model.predict_proba(X_transformed)[0][1]
 
-    status = 0
+    
 
-    if prob < 0.3:
-        status = "High Risk Patient"
-    elif 0.3 < prob < 0.7:
-        status = "Moderate Risk Patient"
-    else:
-        status = "Low Risk Patient"
+    def risk_label(score):
+        if score <= 0.33:
+            return "🟢 Low Risk"
+        elif score <= 0.66:
+            return "🟠 Moderate Risk"
+        else:
+            return "🔴 High Risk"
 
-    st.write(f"You are a {status}")   
-
-
+    st.subheader(""📊 Risk Assessment"")
+    st.markdown(f"### Predicted Category: {risk_label(prob)}")
     st.success(f"Estimated Survival Probability: **{round(prob * 100, 2)}%**")
