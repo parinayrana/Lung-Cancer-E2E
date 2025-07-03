@@ -70,6 +70,6 @@ if st.button("Predict Survival"):
         else:
             return "🔴 High Risk"
 
-    st.subheader(""📊 Risk Assessment"")
+    st.subheader(" Risk Assessment")
     st.markdown(f"### Predicted Category: {risk_label(prob)}")
     st.success(f"Estimated Survival Probability: **{round(prob * 100, 2)}%**")
