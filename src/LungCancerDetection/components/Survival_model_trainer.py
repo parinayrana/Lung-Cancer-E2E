@@ -91,3 +91,4 @@ class ModelTrainer:
             raise CustomException(e,sys)
 
 # trained model saved as pickle file 
+#pipeline finish pending
