@@ -1,75 +1,85 @@
-import streamlit as st
+import sys
 import pandas as pd
-import pickle
-
-# Load model and preprocessor
-with open('artifacts\Survival_model.pkl', 'rb') as f:
-    model = pickle.load(f)
-
-with open('artifacts\preprocessor.pkl', 'rb') as f:
-    preprocessor = pickle.load(f)
-
-st.set_page_config(page_title="Lung Cancer Survival Predictor")
-st.title("🩺 Lung Cancer Survival Probability Predictor")
-
-st.markdown("Enter the patient details below to estimate survival probability:")
-
-# Numerical Inputs
-age = st.number_input("Age", min_value=0, max_value=120)
-bmi = st.number_input("BMI", min_value=10.0, max_value=50.0)
-cholesterol = st.number_input("Cholesterol Level", min_value=100, max_value=400)
-treatment_duration = st.number_input("Treatment Duration (in days)", min_value=0, max_value=2000)
-
-# Categorical Inputs
-gender = st.selectbox("Gender", ["Male", "Female"])
-stage = st.selectbox("Cancer Stage", ["Stage I", "Stage II", "Stage III", "Stage IV"])
-family_history = st.selectbox("Family History", ["Yes", "No"])
-smoking_status = st.selectbox("Smoking Status", ["Never Smoked", "Current Smoker", "Former Smoker", "Passive Smoker"])
-treatment_type = st.selectbox("Treatment Type", ["Surgery", "Chemotherapy", "Radiation", "Combined"])
-
-# Binary Inputs
-hypertension = st.checkbox("Hypertension")
-asthma = st.checkbox("Asthma")
-cirrhosis = st.checkbox("Cirrhosis")
-other_cancer = st.checkbox("Other Cancer History")
+from src.LungCancerDetection.exception import CustomException
+from src.LungCancerDetection.utils import load_object
+import os
 
 
-st.divider()
+class PredictPipeline:
+    def __init__(self):
+        pass
 
-# Predict button
-if st.button("Predict Survival"):
-    # Create a single-row DataFrame from inputs
-    input_df = pd.DataFrame({
-        'age': [age],
-        'bmi': [bmi],
-        'cholesterol_level': [cholesterol],
-        'treatment_duration': [treatment_duration],
-        'gender': [gender],
-        'cancer_stage': [stage],
-        'family_history': [family_history],
-        'smoking_status': [smoking_status],
-        'treatment_type': [treatment_type],
-        'hypertension': [int(hypertension)],
-        'asthma': [int(asthma)],
-        'cirrhosis': [int(cirrhosis)],
-        'other_cancer': [int(other_cancer)]
-    })
+    def predict(self,features):
+        try:
+            model_path=os.path.join("artifacts","Survival_model.pkl")
+            preprocessor_path=os.path.join('artifacts','preprocessor.pkl')
+            print("Before Loading")
+            model=load_object(file_path=model_path)
+            preprocessor=load_object(file_path=preprocessor_path)
+            print("After Loading")
+            data_scaled=preprocessor.transform(features)
+            preds=model.predict_proba(data_scaled)[0][1]
+            return preds
+        
+        except Exception as e:
+            raise CustomException(e,sys)
 
-    # Preprocess and predict
-    X_transformed = preprocessor.transform(input_df)
 
-    prob = model.predict_proba(X_transformed)[0][1]
 
-    
+class PatientData:
+    def __init__(
+        self,
+        age: int,
+        bmi: float,
+        cholesterol: int,
+        treatment_duration: int,
+        gender: str,
+        stage: str,
+        family_history: str,
+        smoking_status: str,
+        treatment_type: str,
+        hypertension: bool,
+        asthma: bool,
+        cirrhosis: bool,
+        other_cancer: bool
+    ):
 
-    def risk_label(score):
-        if score <= 0.33:
-            return "🔴 High Risk"
-        elif score <= 0.66:
-            return "🟠 Moderate Risk"
-        else:
-            return "🟢 Low Risk"
+        self.age = age
+        self.bmi = bmi
+        self.cholesterol = cholesterol
+        self.treatment_duration = treatment_duration
 
-    st.subheader(" Risk Assessment")
-    st.markdown(f"### Predicted Category: {risk_label(prob)}")
-    st.success(f"Estimated Survival Probability: **{round(prob * 100, 2)}%**")
+        self.gender = gender
+        self.stage = stage
+        self.family_history = family_history
+        self.smoking_status = smoking_status
+        self.treatment_type = treatment_type
+
+        self.hypertension = hypertension
+        self.asthma = asthma
+        self.cirrhosis = cirrhosis
+        self.other_cancer = other_cancer
+
+
+    def get_data_as_data_frame(self):
+        try:
+            custom_data_input_dict = {
+        'age': [self.age],
+        'bmi': [self.bmi],
+        'cholesterol_level': [self.cholesterol],
+        'treatment_duration': [self.treatment_duration],
+        'gender': [self.gender],
+        'cancer_stage': [self.stage],
+        'family_history': [self.family_history],
+        'smoking_status': [self.smoking_status],
+        'treatment_type': [self.treatment_type],
+        'hypertension': [int(self.hypertension)],
+        'asthma': [int(self.asthma)],
+        'cirrhosis': [int(self.cirrhosis)],
+        'other_cancer': [int(self.other_cancer)]
+    }
+
+            return pd.DataFrame(custom_data_input_dict)
+
+        except Exception as e:
+            raise CustomException(e, sys)
