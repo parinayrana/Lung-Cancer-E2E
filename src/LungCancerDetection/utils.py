@@ -2,6 +2,7 @@ import pickle
 import numpy as np
 import os
 import sys
+import dill
 
 
 from imblearn.pipeline import Pipeline as ImbPipeline
